@@ -1,3 +1,5 @@
 nox
 numpy
 matplotlib
+jax[cpu]
+pytest
