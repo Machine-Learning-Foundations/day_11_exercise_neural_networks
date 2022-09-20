@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 def sigmoid(x: jnp.ndarray) -> jnp.ndarray:
     """Define a logistic sigmoid following 1. / (1.0 + e^(-1.))."""
     # TODO: Implement me.
-    return 0.
+    return 0.0
 
 
 def net(params: dict, x: jnp.ndarray) -> jnp.ndarray:
@@ -32,13 +32,13 @@ def net(params: dict, x: jnp.ndarray) -> jnp.ndarray:
 def cost(y: jnp.ndarray, h: jnp.ndarray) -> jnp.ndarray:
     """Compute a squared error cost."""
     # TODO: Implement me.
-    return jnp.array(0.)
+    return jnp.array(0.0)
 
 
 def net_cost(params: dict, x: jnp.ndarray, y: jnp.ndarray) -> jnp.ndarray:
     """Evaluate the network and the cost."""
     # TODO: Implement me.
-    return jnp.array(0.)
+    return jnp.array(0.0)
 
 
 if __name__ == "__main__":
