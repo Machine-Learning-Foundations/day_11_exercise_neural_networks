@@ -69,10 +69,10 @@ def normalize(
         (np.array, float, float): Normalized data, mean and std.
     """
     if mean is None:
-        mean = np.mean(data)
+        # TODO.
     if std is None:
-        std = np.std(data)
-    return (data - mean) / std, mean, std
+        # TODO.
+    return data, 0., 0.
 
 
 class Net(nn.Module):
@@ -81,13 +81,8 @@ class Net(nn.Module):
     @nn.compact
     def __call__(self, x: jnp.ndarray) -> jnp.ndarray:
         """Run the forward pass."""
-        x = x.reshape((x.shape[0], -1))  # flatten
-        x = nn.Dense(features=784)(x)
-        x = nn.relu(x)
-        x = nn.Dense(features=256)(x)
-        x = nn.relu(x)
-        x = nn.Dense(features=10)(x)
-        return nn.sigmoid(x)
+        # TODO.
+        return x
 
 
 @jax.jit
@@ -104,9 +99,8 @@ def cross_entropy(label: jnp.ndarray, out: jnp.ndarray) -> jnp.ndarray:
     Returns:
         (jnp.ndarray): The loss scalar.
     """
-    left = -label * jnp.log(out + 1e-8)
-    right = -(1 - label) * jnp.log(1 - out + 1e-8)
-    return jnp.mean(left + right)
+    # TODO.
+    return jnp.array(0.)
 
 
 @jax.jit
@@ -123,9 +117,8 @@ def forward_step(
     Returns:
         jnp.ndarray: A scalar containing the loss value.
     """
-    out = net.apply(variables, jnp.expand_dims(img_batch, -1))
-    ce_loss = cross_entropy(nn.one_hot(label_batch, num_classes=10), out)
-    return ce_loss
+    TODO.
+    return jnp.array(0.)
 
 
 # set up autograd
@@ -149,9 +142,7 @@ def sgd_step(
     Returns:
         FrozenDict: The updated network weights.
     """
-    variables = jax.tree_util.tree_map(
-        lambda p, g: p - learning_rate * g, variables, grads
-    )
+    # TODO.
     return variables
 
 
@@ -165,116 +156,10 @@ def get_acc(img_data: jnp.ndarray, label_data: jnp.ndarray) -> float:
     Returns:
         float: The accuracy in percent [%].
     """
-    out = net.apply(variables, jnp.expand_dims(img_data, -1))
-    rec = jnp.argmax(out, axis=1)
-    acc = jnp.sum((rec == label_data).astype(np.float32)) / len(label_data)
-    return float(acc)
+    # TODO
+    return 0.
 
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description="Train Networks on MNIST.")
-    parser.add_argument("--lr", type=float, default=0.01, help="Learning Rate")
-    args = parser.parse_args()
-    print(args)
-
-    batch_size = 50
-    val_size = 1000
-    epochs = 10
-    img_data_train, lbl_data_train = get_mnist_train_data()
-    img_data_val, lbl_data_val = img_data_train[:val_size], lbl_data_train[:val_size]
-    img_data_train, lbl_data_train = (
-        img_data_train[val_size:],
-        lbl_data_train[val_size:],
-    )
-    img_data_train, mean, std = normalize(img_data_train)
-    img_data_val, _, _ = normalize(img_data_val, mean, std)
-
-    exp_list = []
-
-    for key in (0, 1, 2, 3, 4):
-        acc_list_train = []
-        acc_list_val = []
-
-        key = jax.random.PRNGKey(key)  # type: ignore
-        net = Net()
-        variables = net.init(
-            key, jnp.ones([batch_size] + list(img_data_train.shape[1:]) + [1])
-        )
-
-        for e in range(epochs):
-            shuffler = jax.random.permutation(key, len(img_data_train))
-            img_data_train = img_data_train[shuffler]
-            lbl_data_train = lbl_data_train[shuffler]
-
-            img_batches = np.split(
-                img_data_train, img_data_train.shape[0] // batch_size, axis=0
-            )
-            label_batches = np.split(
-                lbl_data_train, lbl_data_train.shape[0] // batch_size, axis=0
-            )
-
-            for img_batch, label_batch in tqdm(
-                zip(img_batches, label_batches), total=len(img_batches)
-            ):
-                img_batch, label_batch = (
-                    jnp.array(np_array) for np_array in (img_batch, label_batch)
-                )
-                # cel = cross_entropy(nn.one_hot(label_batches[no], num_classes=10),
-                #                    out)
-                cel, grads = loss_grad_fn(variables, img_batch, label_batch)
-                variables = sgd_step(variables, grads, args.lr)
-            print("Epoch: {}, loss: {}".format(e, cel))
-
-            train_acc = get_acc(jnp.array(img_data_train), jnp.array(lbl_data_train))
-            val_acc = get_acc(jnp.array(img_data_val), jnp.array(lbl_data_val))
-            print(
-                "Train and Validation accuracy: {:3.3f}, {:3.3f}".format(
-                    train_acc, val_acc
-                )
-            )
-            acc_list_train.append(train_acc)
-            acc_list_val.append(val_acc)
-
-        print("Training done. Testing...")
-        img_data_test, lbl_data_test = get_mnist_test_data()
-        img_data_test, mean, std = normalize(img_data_test, mean, std)
-
-        test_acc = get_acc(jnp.array(img_data_test), jnp.array(lbl_data_test))
-        print("Done. Test acc: {}".format(test_acc))
-        exp_list.append((test_acc, acc_list_train, acc_list_val))
-
-    test_accs = jnp.array([exp[0] for exp in exp_list])
-    train_accs = jnp.stack([jnp.array(exp[1]) for exp in exp_list])
-    val_accs = jnp.stack([jnp.array(exp[2]) for exp in exp_list])
-
-    test_mean = jnp.mean(test_accs)
-    test_std = jnp.std(test_accs)
-
-    train_mean = jnp.mean(train_accs, axis=0)
-    train_std = jnp.std(train_accs, axis=0)
-
-    val_mean = jnp.mean(val_accs, axis=0)
-    val_std = jnp.std(val_accs, axis=0)
-
-    def plot_mean_std(steps, mean, std, color, label="", marker="."):
-        """Plot means and standard deviations with shaded areas."""
-        plt.plot(steps, mean, label=label, color=color, marker=marker)
-        plt.fill_between(steps, mean - std, mean + std, color=color, alpha=0.2)
-
-    colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
-    plot_mean_std(
-        jnp.arange(1, 11), train_mean, train_std, colors[0], label="train acc"
-    )
-    plot_mean_std(jnp.arange(1, 11), val_mean, val_std, colors[1], label="val acc")
-    plt.errorbar(
-        jnp.array([10]),
-        test_mean,
-        test_std,
-        color=colors[2],
-        label="test acc",
-        marker="x",
-    )
-    plt.legend()
-    plt.show()
-    print("done")
+    # TODO Train and test the network.
