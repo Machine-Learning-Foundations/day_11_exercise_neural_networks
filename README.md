@@ -3,9 +3,9 @@
 The goal of this exercise is to implement a multilayer dense neural network using `jax` and `flax`.
 Type,
 
-``bash
+```bash
 $ pip install -r requirements.txt
-``
+```
 
 into the terminal to install the required software.
 
