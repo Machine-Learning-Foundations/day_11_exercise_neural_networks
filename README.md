@@ -22,7 +22,31 @@ Use `jax.random.uniform` to initialize your weigths.
 Use i.e. `jax.value_and_grad` to compute cost and gradient at the same time.
 
 
-### Task 2: MNIST
+### Task 2: Getting started on Bender
+Use the `Remote - SSH` to connect to Bender using your Uni-ID.
+To share GPUs the environment variable `XLA_PYTHON_CLIENT_PREALLOCATE=false` must always be set!
+
+Modefiy your launch.json, it should look something like this:
+``` json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {
+               "XLA_PYTHON_CLIENT_PREALLOCATE": "False"
+            }
+        }
+    ]
+}
+```
+
+### Task 3: MNIST
 Using flax set up a fully connected neural network to identify MNIST digits.
 Implement your network in `src/mnist.py`.
 - Use the [linen api](https://flax.readthedocs.io/en/latest/api_reference/flax.linen.html).
