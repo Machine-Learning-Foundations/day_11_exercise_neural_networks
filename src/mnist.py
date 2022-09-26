@@ -69,8 +69,10 @@ def normalize(
         (np.array, float, float): Normalized data, mean and std.
     """
     if mean is None:
+        pass
         # TODO.
     if std is None:
+        pass
         # TODO.
     return data, 0., 0.
 
