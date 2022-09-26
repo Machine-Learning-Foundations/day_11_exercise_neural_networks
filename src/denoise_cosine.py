@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 
 def sigmoid(x: jnp.ndarray) -> jnp.ndarray:
-    """Define a logistic sigmoid following 1. / (1.0 + e^(-1.))."""
+    """Define a logistic sigmoid following 1. / (1.0 + e^(-x))."""
     # TODO: Implement me.
     return 0.0
 
