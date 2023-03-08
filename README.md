@@ -12,12 +12,13 @@ into the terminal to install the required software.
 Jax takes care of our autograd needs. The documentation is available at https://jax.readthedocs.io/en/latest/index.html . Flax is a high-level neural network library. https://flax.readthedocs.io/en/latest/ hosts the documentation.
 
 ### Task 1: Denoising a cosine
-- As a first step implement gradient descent using `jax`. 
-- Train a dense layer to denoise a cosine in `src/denoise_cosine.py`:
+- As a first step create a cosine function in jax and add some noise with `jax.random.normal`.
+- Now implement gradient descent using `jax`.
+- Train a dense layer of the form:
 
 $$ \mathbf{W}_2 \sigma(\mathbf{W}_1 \mathbf{x} + \mathbf{b}). $$
 
-With W2 of shape [200, hidden_neurons], W of shape [hidden_neurons, 200] and b of shape [hidden_neurons].
+to denoise a cosine in `src/denoise_cosine.py` with $W_2$ of shape [200, hidden_neurons], $W_1$ of shape [hidden_neurons, 200] and $b$ of shape [hidden_neurons].
 Use `jax.random.uniform` to initialize your weigths.
 Use i.e. `jax.value_and_grad` to compute cost and gradient at the same time.
 
