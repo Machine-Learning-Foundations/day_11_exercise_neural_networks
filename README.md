@@ -22,13 +22,13 @@ $$ \sigma(x) = \frac{1}{1 + e^{-x}} $$
 - Implement the `sigmoid` function in `src/denoise_cosine.py`.
 
 
-- Implement a dense dense layer in the `net` function of `src/denoise_cosine.py` the function should compute
+- Implement a dense dense layer in the `net` function of `src/denoise_cosine.py` the function should return
 
 $$ \mathbf{W}_2 \sigma(\mathbf{W}_1 \mathbf{x} + \mathbf{b}). $$
 
 - Use numpys `@` notation for the matrix product. 
 
-- Initialize W2 of shape [200, hidden_neurons], W of shape [hidden_neurons, 200] and, b of shape [hidden_neurons]. Use `jax.random.uniform` to initialize your weights. `jax.random.PRNGKey` allows you to create a seed for the random number generator.
+- Initialize W2 of shape [200, hidden_neurons], W of shape [hidden_neurons, 200] and, b of shape [hidden_neurons]. Use `jax.random.uniform` to initialize your weights. Start with $\mathcal{U}[-0.1, 0.1]$ for example. `jax.random.PRNGKey` allows you to create a seed for the random number generator.
 
 - Implement a squared error cost
 
@@ -38,7 +38,7 @@ $$  C_{\text{mse}} = \frac{1}{2} \sum_{k=1}^{n} (\mathbf{y}_k - \mathbf{h}_k)^2 
 
 - Define the forward pass in `src/net_cost`. The forward pass evaluates the network and the cost function.
 
-- Train your network to denoise a sine. `jax.value_and_grad`, returns cost and gradient at the same time. Remember the gradient descent update rule
+- Train your network to denoise a sine. `jax.value_and_grad`, allows you to compute cost and gradient at the same time. Remember the gradient descent update rule
 
 $$ \mathbf{W}_{\tau + 1} = \mathbf{W}_\tau - \epsilon \cdot \delta\mathbf{W}_{\tau} . $$ 
 
@@ -50,7 +50,13 @@ Using flax set up a fully connected neural network to identify MNIST digits.
 Implement your network in `src/mnist.py`.
 - Use the [linen api](https://flax.readthedocs.io/en/latest/api_reference/flax.linen.html).
 - Load the mnist train images using the `get_mnist_train_data` function.
-- Implement `normalize` to ensure approximate normal inputs.
+- Implement `normalize` to ensure approximate normal inputs. Normalization requires subtraction of the mean and division by the standard deviation
+
+$$ {x}_{ij} = \frac{x_{ij} - \mu}{\sigma} $$
+
+- for $i = 1, \dots w$ and $j = 1, \dots h$ with w the image width and h the image height.
+
+
 - Implement the `forward_step` and `sgd_step` functions. `forward_step` should return a scalar cost term you can use to compute gradients. Use the gradients to update the weights in `sgd_step`.
 - Implement a function to compute the accuracy.
 - Train your network for 10 passes over the entire data-set or epochs.
