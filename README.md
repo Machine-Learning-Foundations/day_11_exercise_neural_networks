@@ -32,7 +32,7 @@ $$ \mathbf{W}_2 \sigma(\mathbf{W}_1 \mathbf{x} + \mathbf{b}). $$
 
 - Implement a squared error cost
 
-$$  C_{\text{mse}} = \frac{1}{2} \sum_{k=1}^{n} (\mathbf{y}_k - \mathbf{h}_k)^2 $$
+$$  C_{\text{se}} = \frac{1}{2} \sum_{k=1}^{n} (\mathbf{y}_k - \mathbf{h}_k)^2 $$
 
 - `**` denotes squares in python `jnp.sum` allows you to sum up all terms.
 
