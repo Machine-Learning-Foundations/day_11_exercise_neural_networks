@@ -13,7 +13,38 @@ Jax takes care of our autograd needs. The documentation is available at https://
 
 ### Task 1: Denoising a cosine
 
+As a first step, implement gradient descent learning of a dense neural network using `jax`. 
+
+- Recall the definition of the sigmoid function $\sigma$
+
+$$ \sigma(x) = \frac{1}{1 + e^{-x}} $$
+
+
+- Implement the `sigmoid` function in `src/denoise_cosine.py`.
+
+
+- Implement a dense dense layer in the `net` function of `src/denoise_cosine.py` the function should return
+
+$$ \mathbf{W}_2 \sigma(\mathbf{W}_1 \mathbf{x} + \mathbf{b}). $$
+
+- Use numpys `@` notation for the matrix product. [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html) is an elegant way to deal with data batches.
+
+- Initialize W2 of shape [200, hidden_neurons], W of shape [hidden_neurons, 200] and, b of shape [hidden_neurons]. Use `jax.random.uniform` to initialize your weights. Start with $\mathcal{U}[-0.1, 0.1]$ for example. `jax.random.PRNGKey` allows you to create a seed for the random number generator.
+
+- Implement a squared error cost
+
+$$  C_{\text{se}} = \frac{1}{2} \sum_{k=1}^{n} (\mathbf{y}_k - \mathbf{h}_k)^2 $$
+
+- `**` denotes squares in python `jnp.sum` allows you to sum up all terms.
+
+- Define the forward pass in `src/net_cost`. The forward pass evaluates the network and the cost function.
+
+- Train your network to denoise a sine. `jax.value_and_grad`, allows you to compute cost and gradient at the same time. Remember the gradient descent update rule
+
+$$ \mathbf{W}_{\tau + 1} = \mathbf{W}_\tau - \epsilon \cdot \delta\mathbf{W}_{\tau} . $$ 
+
 - In the equation above $\mathbf{W} \in \mathbb{R}$ holds for weight matrices and biases. $\epsilon$ denotes the step size and $\delta$ the gradient operation with respect to the following weight.  Use a loop to repeat weight updates for multiple operations. Try to train for one hundret updates.
+
 
 
 ### Task 2: MNIST
