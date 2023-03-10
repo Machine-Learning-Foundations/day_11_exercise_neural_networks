@@ -133,7 +133,7 @@ def sgd_step(
     """Update the variable in a SGD step.
 
     The idea is to compute w_{t+1} = w_t - learning_rate * g using
-    jax.tree_util.tree_ap.
+    jax.tree_util.tree_map.
 
     Args:
         variables (FrozenDict): A dictionary containing the network weights.
