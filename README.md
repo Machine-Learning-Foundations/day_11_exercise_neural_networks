@@ -45,7 +45,7 @@ $$ \mathbf{W}_{\tau + 1} = \mathbf{W}_\tau - \epsilon \cdot \delta\mathbf{W}_{\t
 - In the equation above $\mathbf{W} \in \mathbb{R}$ holds for weight matrices and biases. $\epsilon$ denotes the step size and $\delta$ the gradient operation with respect to the following weight.  Use a loop to repeat weight updates for multiple operations. Try to train for one hundret updates.
 
 
-### Task 3: MNIST
+### Task 2: MNIST
 Using flax, set up a fully connected neural network to identify MNIST digits.
 Implement your network in `src/mnist.py`.
 - Use the [linen api](https://flax.readthedocs.io/en/latest/api_reference/flax.linen.html).
