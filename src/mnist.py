@@ -28,8 +28,6 @@ def get_mnist_test_data() -> Tuple[np.ndarray, np.ndarray]:
     with open("./data/MNIST/t10k-labels-idx1-ubyte", "rb") as f:
         _, size = struct.unpack(">II", f.read(8))
         lbl_data_test = np.array(np.fromfile(f, dtype=np.dtype(np.uint8)))
-    # if gpu:
-    #    return cp.array(img_data_test), cp.array(lbl_data_test)
     return img_data_test, lbl_data_test
 
 
@@ -87,7 +85,7 @@ class Net(nn.Module):
         return x
 
 
-@jax.jit
+# @jax.jit
 def cross_entropy(label: jnp.ndarray, out: jnp.ndarray) -> jnp.ndarray:
     """Compute the cross entropy of one-hot encoded labels and the network output.
 
@@ -105,7 +103,7 @@ def cross_entropy(label: jnp.ndarray, out: jnp.ndarray) -> jnp.ndarray:
     return jnp.array(0.)
 
 
-@jax.jit
+# @jax.jit
 def forward_step(
     variables: FrozenDict, img_batch: jnp.ndarray, label_batch: jnp.ndarray
 ) -> jnp.ndarray:
@@ -119,7 +117,7 @@ def forward_step(
     Returns:
         jnp.ndarray: A scalar containing the loss value.
     """
-    TODO.
+    # TODO.
     return jnp.array(0.)
 
 
@@ -135,7 +133,7 @@ def sgd_step(
     """Update the variable in a SGD step.
 
     The idea is to compute w_{t+1} = w_t - learning_rate * g using
-    jax.tree_util.tree_ap.
+    jax.tree_util.tree_map.
 
     Args:
         variables (FrozenDict): A dictionary containing the network weights.
@@ -163,5 +161,7 @@ def get_acc(img_data: jnp.ndarray, label_data: jnp.ndarray) -> float:
 
 
 if __name__ == "__main__":
-
-    # TODO Train and test the network.
+    
+    pass
+    
+    # TODO train and test the network.
