@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 
 def sigmoid(x: jnp.ndarray) -> jnp.ndarray:
-    """Define a logistic sigmoid following 1. / (1.0 + e^(-x))."""
+    """Define a logistic sigmoid following 1 / (1 + e^(-x))."""
     # TODO: Implement me.
     return 0.0
 
@@ -19,7 +19,7 @@ def net(params: dict, x: jnp.ndarray) -> jnp.ndarray:
     """Set up a single layer network with output mapping.
 
     Args:
-        params (dict): The network parameters
+        params (dict): The network parameters with keys W1, W2 and b.
 
     Returns:
         jnp.ndarray: The network output.

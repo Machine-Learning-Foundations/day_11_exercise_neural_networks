@@ -12,6 +12,7 @@ into the terminal to install the required software.
 Jax takes care of our autograd needs. The documentation is available at https://jax.readthedocs.io/en/latest/index.html . Flax is a high-level neural network library. https://flax.readthedocs.io/en/latest/ hosts the documentation.
 
 ### Task 1: Denoising a cosine
+
 As a first step, implement gradient descent learning of a dense neural network using `jax`. 
 
 - Recall the definition of the sigmoid function $\sigma$
@@ -43,6 +44,7 @@ $$  C_{\text{se}} = \frac{1}{2} \sum_{k=1}^{n} (\mathbf{y}_k - \mathbf{h}_k)^2 $
 $$ \mathbf{W}_{\tau + 1} = \mathbf{W}_\tau - \epsilon \cdot \delta\mathbf{W}_{\tau} . $$ 
 
 - In the equation above $\mathbf{W} \in \mathbb{R}$ holds for weight matrices and biases. $\epsilon$ denotes the step size and $\delta$ the gradient operation with respect to the following weight.  Use a loop to repeat weight updates for multiple operations. Try to train for one hundret updates.
+
 
 
 ### Task 2: MNIST
