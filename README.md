@@ -50,7 +50,7 @@ Using flax, set up a fully connected neural network to identify MNIST digits.
 Implement your network in `src/mnist.py`.
 - Use the [linen api](https://flax.readthedocs.io/en/latest/api_reference/flax.linen.html).
 - Load the mnist train images using the `get_mnist_train_data` function.
-- Implement `normalize` to ensure approximate normal inputs. Normalization requires subtraction of the mean and division by the standard deviation
+- Implement `normalize` to ensure approximately standard-normal inputs. Normalization requires subtraction of the mean and division by the standard deviation
 
 $$ {x}_{ij} = \frac{x_{ij} - \mu}{\sigma} $$
 
