@@ -26,7 +26,7 @@ $$ \sigma(x) = \frac{1}{1 + e^{-x}} $$
 
 $$ \mathbf{W}_2 \sigma(\mathbf{W}_1 \mathbf{x} + \mathbf{b}). $$
 
-- Use numpys `@` notation for the matrix product. 
+- Use numpys `@` notation for the matrix product. [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html) is an elegant way to deal with data batches.
 
 - Initialize W2 of shape [200, hidden_neurons], W of shape [hidden_neurons, 200] and, b of shape [hidden_neurons]. Use `jax.random.uniform` to initialize your weights. Start with $\mathcal{U}[-0.1, 0.1]$ for example. `jax.random.PRNGKey` allows you to create a seed for the random number generator.
 
