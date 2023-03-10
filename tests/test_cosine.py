@@ -1,4 +1,4 @@
-"""Test the python function from src."""
+"""Test the python functions from src/denoise_cosine."""
 
 import sys
 
