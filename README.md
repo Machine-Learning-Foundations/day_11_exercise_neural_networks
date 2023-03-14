@@ -65,9 +65,9 @@ $$ {x}_{ij} = \frac{x_{ij} - \mu}{\sigma} $$
 - The forward pass ends with the evaluation of a cost function.
 Write a `cross_entropy` cost function,
 
-$$       C_{\text{ce}}(\mathbf{y}, \mathbf{o}) = - \frac{1}{n_b} \sum_{k=1}^{n_o} [(\mathbf{y}_k  \ln \mathbf{o}_k) + (\mathbf{1} - \mathbf{y}_k) \ln(\mathbf{1} - \mathbf{o}_k)]. $$
+$$       C_{\text{ce}}(\mathbf{y}, \mathbf{o}) = - \frac{1}{n_b} \sum_{i=1}^{n_b} \sum_{k=1}^{n_o} [(\mathbf{y}_{i,k}  \ln \mathbf{o}_{i,k}) + (\mathbf{1} - \mathbf{y}_{i,k}) \ln(\mathbf{1} - \mathbf{o}_{i,k})]. $$
 
-- With $n_o$ the number of labels or $n_o \cdot n_b$ in the batched case.
+- With $n_o$ the number of labels and $n_b$ in the batched case.
 
 
 - Implement a function to compute the accuracy. `jnp.argmax` will help.
