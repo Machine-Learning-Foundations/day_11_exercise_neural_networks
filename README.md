@@ -54,9 +54,9 @@ Implement your network in `src/mnist.py`.
 - Load the mnist train images using the `get_mnist_train_data` function.
 - Implement `normalize` to ensure approximately standard-normal inputs. Normalization requires subtraction of the mean and division by the standard deviation
 
-$$ {x}_{ij} = \frac{x_{ij} - \mu}{\sigma} $$
+$$ {x}_{ijk} = \frac{x_{ijk} - \mu}{\sigma} $$
 
-- for $i = 1, \dots w$ and $j = 1, \dots h$ with w the image width and h the image height.
+- for $i = 1, \dots w$ and $j = 1, \dots h$ with w the image width and h the image height. And $k$ running through the batch dimension.
 
 - Implement the `forward_step` and `sgd_step` functions. `forward_step` should return a scalar cost term you can use to compute gradients. Use the gradients to update the weights in `sgd_step`.
 
