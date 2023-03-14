@@ -54,7 +54,7 @@ Implement your network in `src/mnist.py`.
 - Load the mnist train images using the `get_mnist_train_data` function.
 - Implement `normalize` to ensure approximately standard-normal inputs. Normalization requires subtraction of the mean and division by the standard deviation
 
-$$ {x}_{ijk} = \frac{x_{ijk} - \mu}{\sigma} $$
+$$ \tilde{{x}}_{ijk} = \frac{x_{ijk} - \mu}{\sigma} $$
 
 - for $i = 1, \dots w$ and $j = 1, \dots h$ with w the image width and h the image height. And $k$ running through the batch dimension.
 
