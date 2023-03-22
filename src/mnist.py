@@ -161,7 +161,21 @@ def get_acc(img_data: jnp.ndarray, label_data: jnp.ndarray) -> float:
 
 
 if __name__ == "__main__":
-    
-    pass
+    parser = argparse.ArgumentParser(description="Train Networks on MNIST.")
+    parser.add_argument("--lr", type=float, default=0.01, help="Learning Rate")
+    args = parser.parse_args()
+    print(args)
+
+    batch_size = 200
+    val_size = 1000
+    epochs = 10
+    img_data_train, lbl_data_train = get_mnist_train_data()
+    img_data_val, lbl_data_val = img_data_train[:val_size], lbl_data_train[:val_size]
+    img_data_train, lbl_data_train = (
+        img_data_train[val_size:],
+        lbl_data_train[val_size:],
+    )
+    img_data_train, mean, std = normalize(img_data_train)
+    img_data_val, _, _ = normalize(img_data_val, mean, std)
     
     # TODO train and test the network.
