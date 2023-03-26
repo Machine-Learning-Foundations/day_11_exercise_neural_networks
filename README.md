@@ -36,9 +36,9 @@ $$\sigma(x) = \frac{1}{1 + e^{-x}}$$
 
 $$C_{\text{se}} = \frac{1}{2} \sum_{k=1}^{n} (\mathbf{y}_k - \mathbf{h}_k)^2$$
 
-- `**` denotes squares in python `jnp.sum` allows you to sum up all terms.
+- `**` denotes squares in python, `jnp.sum` allows you to sum up all terms.
 
-- Define the forward pass in `src/net_cost`. The forward pass evaluates the network and the cost function.
+- Define the forward pass in the `net_cost` function. The forward pass evaluates the network and the cost function.
 
 - Train your network to denoise a cosine. To do so, implement gradient descent on the noisy input signal and use e.g. `jax.value_and_grad` to compute cost and gradient at the same time. Remember the gradient descent update rule  
 
@@ -49,6 +49,7 @@ $$\mathbf{W}_{\tau + 1} = \mathbf{W}_\tau - \epsilon \cdot \delta\mathbf{W}_{\ta
 
 - At last compute the network output `y_hat` on the final values to see if the network learned the underlying cosine function. Use `matplotlib.pyplot.plot` to plot the noisy signal and the network output $\hat{y}$.
 
+- Test your code with `nox -r -s test` and run the script with `python ./src/denoise_cosine.py` or by pressing `Ctrl + F5` in Vscode. If you are coding on bender the function `matplotlib.pyplot.show` doesn't work if you are not connected to the X server of bender. Use e.g. `plt.savefig` to save the figure and view it in vscode.
 
 
 
