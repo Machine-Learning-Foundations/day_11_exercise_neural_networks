@@ -56,14 +56,14 @@ $$\mathbf{W}_{\tau + 1} = \mathbf{W}_\tau - \epsilon \cdot \delta\mathbf{W}_{\ta
 In this task we will go one step further. Instead of a cosine function our neural network will learn how to identify handwritten digits from the [MNSIT dataset](http://yann.lecun.com/exdb/mnist/). For that we will be using the [linen api](https://flax.readthedocs.io/en/latest/api_reference/flax.linen.html) of the module [flax](https://flax.readthedocs.io/en/latest/). Firstly, make yourself familiar with the linen api to get started with training a fully connected network in `src/mnist.py`. In this script some functions are already implemented and can easily be reused.
 
 - Implement the `normalize` function to ensure approximate standard-normal inputs. Make use of handy numpy methods that you already know. Normalization requires subtraction of the mean and division by the standard deviation with $i = 1, \dots w$ and $j = 1, \dots h$ with $w$ the image width and $h$ the image height and $k$ running through the batch dimension:
-$$ \tilde{{x}}_{ijk} = \frac{x_{ijk} - \mu}{\sigma} $$
+
+$$\tilde{{x}}_{ijk} = \frac{x_{ijk} - \mu}{\sigma}$$
 
 - The forward step requires the `Net` object from its [class](https://docs.python.org/3/tutorial/classes.html). It is your fully connected neural network model. Applying weights to a `flax.linen.Module` is comparable to calculating the forward pass of the network in task 1. Implement a dense network in `Net` of your choosing using using a combination of `flax.linen.Dense` and `flax.linen.activation.relu`.
 
-- The forward pass ends with the evaluation of a cost function.
-Write a `cross_entropy` cost function,
-   $$C_{\text{ce}}(\mathbf{y}, \mathbf{o}) = - \frac{1}{n_b} \sum_{i=1}^{n_b} \sum_{k=1}^{n_o} [(\mathbf{y}_{i,k}  \ln \mathbf{o}_{i,k}) + (\mathbf{1} - \mathbf{y}_{i,k}) \ln(\mathbf{1} - \mathbf{o}_{i,k})].$$
-   with $n_o$ the number of labels and $n_b$ in the batched case. Test your function.
+- The forward pass ends with the evaluation of a cost function. Write a `cross_entropy` cost function with $n_o$ the number of labels and $n_b$ in the batched case using
+   
+$$ C_{\text{ce}}(\mathbf{y},\mathbf{o})=-\frac{1}{n_b}\sum_{i=1}^{n_b}\sum_{k=1}^{n_o}[(\mathbf{y}_{i,k}\ln\mathbf{o}_{i,k})+(\mathbf{1}-\mathbf{y}_{i,k})\ln(\mathbf{1}-\mathbf{o}_{i,k})]. $$
 
 - Now implement the `forward_step` function. Calculate the network output first. Then compute the loss. It should return a scalar cost term you can use to compute gradients. Make use of the cross entropy.
 
@@ -71,7 +71,7 @@ Write a `cross_entropy` cost function,
 
 - To evaluate the network we calculate the accuracy of the network output. Implement `get_acc` to calculate the accuracy given a batch of images and the corresponding labels for these images.
 
-- Now is the time to move back to the main procedure. First fetch the train data via the function `get_mnist_train_data`. To be able to evaluate the network while it is being trained, we use a validation set. Split the train set into two disjoint sets: the training and the validation set. Normalize both sets. Bear in mind which mean and stds should be used for the validation set.
+- Now is the time to move back to the main procedure. First the train data is fetched via the function `get_mnist_train_data`. To be able to evaluate the network while it is being trained, we use a validation set. Here the train set is split into two disjoint sets: the training and the validation set. Both sets get normalized.
 
 - Define your loss and gradient function with jax (see task 1). Next initialize the network with the `Net` object (see the `flax` documentation for help).
 
