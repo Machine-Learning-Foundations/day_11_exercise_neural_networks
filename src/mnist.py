@@ -90,7 +90,7 @@ def cross_entropy(label: jnp.ndarray, out: jnp.ndarray) -> jnp.ndarray:
     """Compute the cross entropy of one-hot encoded labels and the network output.
 
     jnp.log(0) equals -infinity!
-    Dont forget to numerically stabilize the logs using small epsilons.
+    Dont forget to numerically stabilize the logs using small epsilons (< 1e-5).
 
     Args:
         label (jnp.ndarray): The image labels of shape [batch_size, class_no].
