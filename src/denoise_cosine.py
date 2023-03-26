@@ -42,9 +42,8 @@ def net_cost(params: dict, x: jnp.ndarray, y: jnp.ndarray) -> jnp.ndarray:
 
 
 if __name__ == "__main__":
-
     step_size = 0.01
     iterations = 100
     hidden_neurons = 10
 
-    # TODO.
+    # TODO: Implement a dense neural network to denoise a cosine.

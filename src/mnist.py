@@ -68,11 +68,11 @@ def normalize(
     """
     if mean is None:
         pass
-        # TODO.
+        # TODO: Implement me.
     if std is None:
         pass
-        # TODO.
-    return data, 0., 0.
+        # TODO: Implement me.
+    return data, 0.0, 0.0
 
 
 class Net(nn.Module):
@@ -81,7 +81,7 @@ class Net(nn.Module):
     @nn.compact
     def __call__(self, x: jnp.ndarray) -> jnp.ndarray:
         """Run the forward pass."""
-        # TODO.
+        # TODO: Implement me.
         return x
 
 
@@ -99,8 +99,8 @@ def cross_entropy(label: jnp.ndarray, out: jnp.ndarray) -> jnp.ndarray:
     Returns:
         (jnp.ndarray): The loss scalar.
     """
-    # TODO.
-    return jnp.array(0.)
+    # TODO: Implement me.
+    return jnp.array(0.0)
 
 
 # @jax.jit
@@ -111,14 +111,14 @@ def forward_step(
 
     Args:
         variables (FrozenDict): A dictionary containing the network weights.
-        img_batch (jnp.ndarray): An image batch of shape [batch_size, height, widht].
+        img_batch (jnp.ndarray): An image batch of shape [batch_size, height, width].
         label_batch (jnp.ndarray): A label batch of shape [batch_size].
 
     Returns:
         jnp.ndarray: A scalar containing the loss value.
     """
-    # TODO.
-    return jnp.array(0.)
+    # TODO: Implement me.
+    return jnp.array(0.0)
 
 
 # set up autograd
@@ -126,7 +126,7 @@ loss_grad_fn = jax.value_and_grad(forward_step)
 
 
 # set up SGD
-# @jax.jit
+@jax.jit
 def sgd_step(
     variables: FrozenDict, grads: FrozenDict, learning_rate: float
 ) -> FrozenDict:
@@ -142,7 +142,7 @@ def sgd_step(
     Returns:
         FrozenDict: The updated network weights.
     """
-    # TODO.
+    # TODO: Implement me.
     return variables
 
 
@@ -156,8 +156,8 @@ def get_acc(img_data: jnp.ndarray, label_data: jnp.ndarray) -> float:
     Returns:
         float: The accuracy in percent [%].
     """
-    # TODO
-    return 0.
+    # TODO: Implement me.
+    return 0.0
 
 
 if __name__ == "__main__":
@@ -178,4 +178,4 @@ if __name__ == "__main__":
     img_data_train, mean, std = normalize(img_data_train)
     img_data_val, _, _ = normalize(img_data_val, mean, std)
     
-    # TODO train and test the network.
+    # TODO: Set up a dense layer network, train and test the network.
