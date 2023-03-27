@@ -46,4 +46,14 @@ if __name__ == "__main__":
     iterations = 100
     hidden_neurons = 10
 
-    # TODO: Implement a dense neural network to denoise a cosine.
+    # generate cosine signal
+    x = jnp.linspace(-3 * jnp.pi, 3 * jnp.pi, 200)
+    y = jnp.cos(x)
+
+    # TODO: Create W1, W2 and b using different random keys
+
+    for i in range(iterations):
+        # add noise to cosine
+        y_noise = y + jax.random.normal(jax.random.PRNGKey(i), [200])
+ 
+        # TODO: Implement a dense neural network to denoise the cosine.
