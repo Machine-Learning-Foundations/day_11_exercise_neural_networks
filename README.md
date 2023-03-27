@@ -59,7 +59,7 @@ In this task we will go one step further. Instead of a cosine function our neura
 
 $$\tilde{{x}}_{ijk} = \frac{x_{ijk} - \mu}{\sigma}$$
 
-- The forward step requires the `Net` object from its [class](https://docs.python.org/3/tutorial/classes.html). It is your fully connected neural network model. Applying weights to a `flax.linen.Module` is comparable to calculating the forward pass of the network in task 1. Implement a dense network in `Net` of your choosing using a combination of `flax.linen.Dense` and `flax.linen.activation.relu` or `flax.linen.sigmoid`.
+- The forward step requires the `Net` object from its [class](https://flax.readthedocs.io/en/latest/api_reference/flax.linen.html#flax.linen.Module). It is your fully connected neural network model. Applying weights to a `flax.linen.Module` is comparable to calculating the forward pass of the network in task 1. Implement a dense network in `Net` of your choosing using a combination of `flax.linen.Dense` and `flax.linen.activation.relu` or `flax.linen.sigmoid`.
 
 - The forward pass ends with the evaluation of a cost function. Write a `cross_entropy` cost function with $n_o$ the number of labels and $n_b$ in the batched case using
    
