@@ -27,8 +27,7 @@ $$\sigma(x) = \frac{1}{1 + e^{-x}}$$
 
 - Implement a dense layer in the `net` function of `src/denoise_cosine.py` the function should return
    $$\mathbf{o} = \mathbf{W}_2 \sigma(\mathbf{W}_1 \mathbf{x} + \mathbf{b})$$  
-   where $\mathbf{W}_1\in \mathbb{R}^{m,n}, \mathbf{x}\in\mathbb{R}^n, \mathbf{b}\in\mathbb{R}^m$ and $m$ denotes the number of neurons and $n$ the input signal length. Suppose that the input parameters are stored in a [python dictonary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) with the keys `W_1`, `W_2` and `b`.  
-   Use numpys `@` notation for the matrix product. [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html) is an elegant way to deal with data batches.
+   where $\mathbf{W}_1\in \mathbb{R}^{m,n}, \mathbf{x}\in\mathbb{R}^n, \mathbf{b}\in\mathbb{R}^m$ and $m$ denotes the number of neurons and $n$ the input signal length. Suppose that the input parameters are stored in a [python dictonary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) with the keys `W_1`, `W_2` and `b`.   Use numpys `@` notation for the matrix product.
 
 - Use `jax.random.uniform` to initialize your weigths. For a signal length of $200$ the $W_2$ matrix should have e.g. have the shape [200, `hidden_neurons`] and $W_1$ a shape of [`hidden_neurons`, 200]. Start with $\mathcal{U}[-0.1, 0.1]$ for example. `jax.random.PRNGKey` allows you to create a seed for the random number generator.
 
@@ -54,7 +53,7 @@ $$\mathbf{W}_{\tau + 1} = \mathbf{W}_\tau - \epsilon \cdot \delta\mathbf{W}_{\ta
 
 
 ### Task 2: MNIST
-In this task we will go one step further. Instead of a cosine function our neural network will learn how to identify handwritten digits from the [MNSIT dataset](http://yann.lecun.com/exdb/mnist/). For that we will be using the [linen api](https://flax.readthedocs.io/en/latest/api_reference/flax.linen.html) of the module [flax](https://flax.readthedocs.io/en/latest/). Firstly, make yourself familiar with the linen api to get started with training a fully connected network in `src/mnist.py`. In this script some functions are already implemented and can easily be reused.
+In this task we will go one step further. Instead of a cosine function our neural network will learn how to identify handwritten digits from the [MNSIT dataset](http://yann.lecun.com/exdb/mnist/). For that we will be using the [linen api](https://flax.readthedocs.io/en/latest/api_reference/flax.linen.html) of the module [flax](https://flax.readthedocs.io/en/latest/). Firstly, make yourself familiar with the linen api to get started with training a fully connected network in `src/mnist.py`. In this script some functions are already implemented and can easily be reused. Use `jax.numpy.array_split` to create a list of batches from your training set. [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html) is an elegant way to deal with data batches. This task aims to compute gradients and update steps for all batches in the list.
 
 - Implement the `normalize` function to ensure approximate standard-normal inputs. Make use of handy numpy methods that you already know. Normalization requires subtraction of the mean and division by the standard deviation with $i = 1, \dots w$ and $j = 1, \dots h$ with $w$ the image width and $h$ the image height and $k$ running through the batch dimension:
 
