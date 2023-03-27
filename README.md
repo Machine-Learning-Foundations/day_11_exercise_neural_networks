@@ -34,7 +34,7 @@ $$\sigma(x) = \frac{1}{1 + e^{-x}}$$
 
 - Implement and test a squared error cost
 
-$$C_{\text{se}} = \frac{1}{2} \sum_{k=1}^{n} (\mathbf{y}_k - \mathbf{h}_k)^2$$
+$$C_{\text{se}} = \frac{1}{2} \sum_{k=1}^{n} (\mathbf{y}_k - \mathbf{o}_k)^2$$
 
 - `**` denotes squares in python, `jnp.sum` allows you to sum up all terms.
 
