@@ -146,10 +146,11 @@ def sgd_step(
     return variables
 
 
-def get_acc(img_data: jnp.ndarray, label_data: jnp.ndarray) -> float:
+def get_acc(variables: FrozenDict, img_data: jnp.ndarray, label_data: jnp.ndarray) -> float:
     """Compute the network accuracy.
 
     Args:
+        variables (FrozenDict): A dictionary containing the network weights.
         img_data (jnp.ndarray): An image batch of shape [stack_size, height, widht].
         label_data (jnp.ndarray): The corresponding labels of shape [stack_size].
 
