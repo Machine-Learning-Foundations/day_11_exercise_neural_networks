@@ -1,6 +1,6 @@
 ## Exercise Neural Networks
 
-The goal of this exercise is to implement a multilayer dense neural network using `jax` and `flax`.
+The goal of this exercise is to implement a multilayer dense neural network using `torch`.
 Type,
 
 ```bash

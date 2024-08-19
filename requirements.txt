@@ -1,7 +1,6 @@
 nox
 numpy
 matplotlib
-jax[cpu]
 pytest
-flax
 tqdm
+torch
