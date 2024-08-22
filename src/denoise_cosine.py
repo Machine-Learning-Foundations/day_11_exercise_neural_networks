@@ -1,8 +1,11 @@
 """An example focused on training a network to denoise a time series."""
 
+from typing import Dict
 
 import matplotlib.pyplot as plt
 import torch as th
+from torch.func import grad_and_value
+from tqdm import tqdm
 
 
 def sigmoid(x: th.Tensor) -> th.Tensor:
@@ -18,36 +21,18 @@ def sigmoid(x: th.Tensor) -> th.Tensor:
     return 0.
 
 
-class Net(th.nn.Module):
-    """Decosine Network."""
+def net(params: Dict, x: th.Tensor) -> th.Tensor:
+    """Set up a single layer network.
 
-    def __init__(
-        self, input_neurons: int, output_neurons: int, hidden_neurons: int
-    ) -> None:
-        """Initialize the network.
+    Args:
+        params (Dict): Dictionary containing W1, b, and W2.
+        x (th.Tensor): Network input.
 
-        Args:
-            input_neurons (int): Number of input neurons.
-            output_neurons (int): Number of output neurons.
-            hidden_neurons (int): Number of hidden neurons.
-        """
-        super().__init__()
-        # TODO: Create two layers using th.nn.Linear. 
-
-
-    def forward(self, x: th.Tensor) -> th.Tensor:
-        """Network forward pass.
-
-        Args:
-            x (th.Tensor): Input tensor of shape 1x200.
-
-        Returns:
-            th.Tensor: Network prediction of shape 1x200.
-        """
-        # TODO: Implment the forward pass using our sigmoid function
-        # as well as the layers you created in the __init__ function.
-        # return the network output instead of 0.
-        return 0.
+    Returns:
+        th.Tensor: Network prediction.
+    """
+    # TODO: Implement single layer pass.
+    return None
 
 
 def cost(y: th.Tensor, h: th.Tensor) -> th.Tensor:
@@ -60,79 +45,56 @@ def cost(y: th.Tensor, h: th.Tensor) -> th.Tensor:
     Returns:
         th.Tensor: Squared Error.
     """
-    # TODO: Return squared error cost instead of 0.
+    # TODO: Implement Squared Error loss.
     return 0.
 
 
-def sgd(model: Net, step_size: float) -> Net:
-    """Perform Stochastic Gradient Descent.
+def net_cost(params: Dict, x: th.Tensor, y: th.Tensor) -> th.Tensor:
+    """Evaluate the network and compute the loss.
 
     Args:
-        model (Net): Network object.
-        step_size (float): Step size for SGD.
+        params (Dict): Dictionary containing W1, b, and W2.
+        x (th.Tensor): Network input.
+        y (th.Tensor): Squared error loss.
 
     Returns:
-        Net: SGD applied model.
+        th.Tensor: Squared Error.
     """
-    for param in model.parameters():
-        # TODO: compute an update for every parameter using param.data,
-        # step size as well as param.grad.data
-        pass
-    return model
-
-
-def zero_grad(model: Net) -> Net:
-    """Make gradients zero after SGD.
-
-    Args:
-        model (Net): Network object.
-
-    Returns:
-        Net: Network with zeroed gradients.
-    """
-    for param in model.parameters():
-        # TODO: call zero_() for every parameter.
-        pass
-    return model
+    # TODO: Call network, compute and return the loss.
+    return None
 
 
 if __name__ == "__main__":
-    # TODO: Use th.manual_seed to set the seed for the network initialization.
+    # TODO: Use th.manual_seed as 42 to set the seed for the network initialization
     pass
-    # TODO: Choose a step size.
-    step_size = 0.00
-    # TODO: Chose a suitable amount of iterations.
-    iterations = 100
+    # TODO: Choose a suitable stepsize
+    step_size = 0.0
+    iterations = 150
     input_neurons = output_neurons = 200
-    # TODO: Choose a network size.
+    # TODO: Choose a proper network size.
     hidden_neurons = 0
 
     x = th.linspace(-3 * th.pi, 3 * th.pi, 200)
     y = th.cos(x)
 
-    # TODO: Instatiate our network using the `Net`-constructor.
-    model = None
+    # TODO: Initialize the parameters
+    W1 = None
+    b = None
+    W2 = None
 
-    for i in range(iterations):
+    # TODO: Instantiate grad_and_value function
+    value_grad = None
+
+    for i in (pbar := tqdm(range(iterations))):
         th.manual_seed(i)
         y_noise = y + th.randn([200])
 
-        # TODO: Compute the network output using your model.
-        preds = 0.
+        # TODO: Compute loss and gradients
 
-        # TODO: Compute the loss value using your cost function.
-        loss_val = 0.
+        # TODO: Update parameters using SGD
 
-        #TODO: Compute the gradient by calling the backward() function of your loss Tensor.
-        pass
-
-        # TODO: Use your sgd function to update your model.
-        model = None
-        # TODO: Use your zero grad function to reset your gradients
-        model = None
-        print(f"Iteration: {i}, Cost: {loss_val.item()}")
-
-    y_hat = model(y_noise).detach().numpy()
+    # TODO: Compute test y_hat using y_noise and converged parameters
+    y_hat = None
 
     plt.title("Denoising a cosine")
     plt.plot(x, y, label="solution")
@@ -143,26 +105,3 @@ if __name__ == "__main__":
     plt.savefig("./figures/Denoise.png", dpi=600, bbox_inches="tight")
     plt.show()
     print("Done")
-
-
-
-
-
-
-
-if __name__ == "__main__":
-    step_size = 0.01
-    iterations = 100
-    hidden_neurons = 10
-
-    # generate cosine signal
-    x = jnp.linspace(-3 * jnp.pi, 3 * jnp.pi, 200)
-    y = jnp.cos(x)
-
-    # TODO: Create W1, W2 and b using different random keys
-
-    for i in range(iterations):
-        # add noise to cosine
-        y_noise = y + jax.random.normal(jax.random.PRNGKey(i), [200])
- 
-        # TODO: Implement a dense neural network to denoise the cosine.

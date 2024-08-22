@@ -1,182 +1,139 @@
-"""Identify mnist digits."""
-import argparse
-import struct
-from typing import Optional, Tuple
+"""Identify MNIST digits."""
 
-import jax
-import jax.numpy as jnp
+import argparse
+
 import matplotlib.pyplot as plt
 import numpy as np
-from flax import linen as nn
-from flax.core.frozen_dict import FrozenDict
+import torch as th
+import torchvision.datasets as tvd
+import torchvision.transforms as tvt
 from tqdm import tqdm
 
 
-def get_mnist_test_data() -> Tuple[np.ndarray, np.ndarray]:
-    """Return the mnist test data set in numpy arrays.
+class Net(th.nn.Module):
+    """MNIST Network."""
 
-    Returns:
-        (array, array): A touple containing the test
-        images and labels.
-    """
-    with open("./data/MNIST/t10k-images-idx3-ubyte", "rb") as f:
-        _, size = struct.unpack(">II", f.read(8))
-        nrows, ncols = struct.unpack(">II", f.read(8))
-        data = np.array(np.fromfile(f, dtype=np.dtype(np.uint8).newbyteorder(">")))
-        img_data_test = data.reshape((size, nrows, ncols))
+    def __init__(self) -> None:
+        """Network initialization."""
+        super().__init__()
+        # TODO: Initialize the network.
 
-    with open("./data/MNIST/t10k-labels-idx1-ubyte", "rb") as f:
-        _, size = struct.unpack(">II", f.read(8))
-        lbl_data_test = np.array(np.fromfile(f, dtype=np.dtype(np.uint8)))
-    return img_data_test, lbl_data_test
+    def forward(self, x: th.Tensor) -> th.Tensor:
+        """Network forward pass.
 
+        Args:
+            x (th.Tensor): Input Tensor of shape (BS, 1, 28, 28).
 
-def get_mnist_train_data() -> Tuple[np.ndarray, np.ndarray]:
-    """Load the mnist training data set.
-
-    Returns:
-        (array, array): A touple containing the training
-        images and labels.
-    """
-    with open("./data/MNIST/train-images-idx3-ubyte", "rb") as f:
-        _, size = struct.unpack(">II", f.read(8))
-        nrows, ncols = struct.unpack(">II", f.read(8))
-        data = np.array(np.fromfile(f, dtype=np.dtype(np.uint8).newbyteorder(">")))
-        img_data_train = data.reshape((size, nrows, ncols))
-
-    with open("./data/MNIST/train-labels-idx1-ubyte", "rb") as f:
-        _, size = struct.unpack(">II", f.read(8))
-        lbl_data_train = np.array(np.fromfile(f, dtype=np.dtype(np.uint8)))
-    return img_data_train, lbl_data_train
+        Returns:
+            th.Tensor: Network predictions of shape (BS, 10).
+        """
+        # TODO: Implement forward pass.
+        return None
 
 
-def normalize(
-    data: np.ndarray, mean: Optional[float] = None, std: Optional[float] = None
-) -> Tuple[np.ndarray, float, float]:
-    """Normalize the input array.
-
-    After normalization the input
-    distribution should be approximately standard normal.
+def cross_entropy(label: th.Tensor, out: th.Tensor) -> th.Tensor:
+    """Cross Entropy loss.
 
     Args:
-        data (np.array): The input array.
-        mean (float): Data mean, re-computed if None. Defaults to None.
-        std (float): Data standard deviation, re-computed if None. Defaults to None.
+        label (th.Tensor): Ground truth labels.
+        out (th.Tensor): Network predictions.
 
     Returns:
-        (np.array, float, float): Normalized data, mean and std.
+        th.Tensor: Cross-Entropy loss.
     """
-    if mean is None:
-        pass
-        # TODO: Implement me.
-    if std is None:
-        pass
-        # TODO: Implement me.
-    return data, 0.0, 0.0
+    # TODO: Implement Cross-Entropy loss.
+    return 0.
 
 
-class Net(nn.Module):
-    """A simple net model."""
-
-    @nn.compact
-    def __call__(self, x: jnp.ndarray) -> jnp.ndarray:
-        """Run the forward pass."""
-        # TODO: Implement me.
-        return x
-
-
-# @jax.jit
-def cross_entropy(label: jnp.ndarray, out: jnp.ndarray) -> jnp.ndarray:
-    """Compute the cross entropy of one-hot encoded labels and the network output.
-
-    jnp.log(0) equals -infinity!
-    Dont forget to numerically stabilize the logs using small epsilons (< 1e-5).
+def sgd_step(model: Net, learning_rate: float) -> Net:
+    """Perform SGD.
 
     Args:
-        label (jnp.ndarray): The image labels of shape [batch_size, class_no].
-        out (jnp.ndarray): The network output of shape [batch_size, class_no].
+        model (Net): Network objekt.
+        learning_rate (float): Learning rate or step size.
 
     Returns:
-        (jnp.ndarray): The loss scalar.
+        Net: SGD applied model.
     """
-    # TODO: Implement me.
-    return jnp.array(0.0)
+    # TODO: Implement SGD using model.parameters
+    # Hint: For gradient one can use model.param.grad
+    return model
 
 
-# @jax.jit
-def forward_step(
-    variables: FrozenDict, img_batch: jnp.ndarray, label_batch: jnp.ndarray
-) -> jnp.ndarray:
-    """Do a forward step using your network and compute the loss.
+def get_acc(model: Net, dataloader: th.utils.data.DataLoader) -> float:
+    """Compute accuracy given specific dataloader.
 
     Args:
-        variables (FrozenDict): A dictionary containing the network weights.
-        img_batch (jnp.ndarray): An image batch of shape [batch_size, height, width].
-        label_batch (jnp.ndarray): A label batch of shape [batch_size].
+        model (Net): Network objekt.
+        dataloader (th.utils.data.DataLoader): Dataloader objekt.
 
     Returns:
-        jnp.ndarray: A scalar containing the loss value.
+        float: Accuracy.
     """
-    # TODO: Implement me.
-    return jnp.array(0.0)
+    # TODO: Given model and dataloader compute accuracy.
+    return 0.
 
 
-# set up autograd
-loss_grad_fn = jax.value_and_grad(forward_step)
-
-
-# set up SGD
-@jax.jit
-def sgd_step(
-    variables: FrozenDict, grads: FrozenDict, learning_rate: float
-) -> FrozenDict:
-    """Update the variable in a SGD step.
-
-    The idea is to compute w_{t+1} = w_t - learning_rate * g using
-    jax.tree_util.tree_map.
+def zero_grad(model: Net) -> Net:
+    """Make gradients zero after SGD.
 
     Args:
-        variables (FrozenDict): A dictionary containing the network weights.
-        grads (FrozenDict): A dictionary containing the gradients.
+        model (Net): Network object.
 
     Returns:
-        FrozenDict: The updated network weights.
+        Net: Network with zeroed gradients.
     """
-    # TODO: Implement me.
-    return variables
+    for param in model.parameters():
+        param.grad.data.zero_()
+    return model
 
 
-def get_acc(variables: FrozenDict, img_data: jnp.ndarray, label_data: jnp.ndarray) -> float:
-    """Compute the network accuracy.
+def normalize_batch(imgs: th.Tensor) -> th.Tensor:
+    """Normalize a specific batch of images.
 
     Args:
-        variables (FrozenDict): A dictionary containing the network weights.
-        img_data (jnp.ndarray): An image batch of shape [stack_size, height, widht].
-        label_data (jnp.ndarray): The corresponding labels of shape [stack_size].
+        imgs (th.Tensor): Batch of images.
 
     Returns:
-        float: The accuracy in percent [%].
+        th.Tensor: Normalized images.
     """
-    # TODO: Implement me.
-    return 0.0
+    # TODO: Given images tensor, normalize the images.
+    return None
+
+
+# HYPERPARAMETERS
+BS = 200
+EPOCHS = 10
+DEVICE = th.device("cuda") if th.cuda.is_available() else th.device("cpu")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Train Networks on MNIST.")
+    parser = argparse.ArgumentParser(description="Train network on MNIST.")
     parser.add_argument("--lr", type=float, default=0.01, help="Learning Rate")
     args = parser.parse_args()
     print(args)
 
-    batch_size = 200
-    val_size = 1000
-    epochs = 10
-    img_data_train, lbl_data_train = get_mnist_train_data()
-    img_data_val, lbl_data_val = img_data_train[:val_size], lbl_data_train[:val_size]
-    img_data_train, lbl_data_train = (
-        img_data_train[val_size:],
-        lbl_data_train[val_size:],
+    train_transforms = tvt.Compose(
+        [
+            tvt.ToTensor(),
+        ]
     )
-    img_data_train, mean, std = normalize(img_data_train)
-    img_data_val, _, _ = normalize(img_data_val, mean, std)
+    test_transforms = tvt.Compose(
+        [
+            tvt.ToTensor(),
+        ]
+    )
+    dataset = tvd.MNIST(
+        "./.data", train=True, download=True, transform=train_transforms
+    )
+    trainset, valset = th.utils.data.random_split(dataset, [50000, 10000])
+
+    train_loader = th.utils.data.DataLoader(trainset, batch_size=BS, shuffle=True)
+    val_loader = th.utils.data.DataLoader(valset, batch_size=BS, shuffle=False)
+    test_loader = th.utils.data.DataLoader(
+        tvd.MNIST("./.data", train=False, download=True, transform=test_transforms),
+        batch_size=10000,
+        shuffle=False,
+    )
     
-    # TODO: Set up a dense layer network, train and test the network.
+    # TODO: Setup a dense layer network, train and test the network. 

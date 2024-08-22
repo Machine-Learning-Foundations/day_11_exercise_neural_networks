@@ -9,7 +9,7 @@ pip install -r requirements.txt
 
 into the terminal to install the required software.
 
-Jax takes care of our autograd needs. The documentation is available at https://jax.readthedocs.io/en/latest/index.html . Flax is a high-level neural network library. https://flax.readthedocs.io/en/latest/ hosts the documentation.
+Torch takes care of our autograd needs. The documentation is available at https://pytorch.org/docs/stable/index.html. torch.nn provides all the necessary modules for neural network. https://pytorch.org/docs/stable/nn.html hosts the documentation.
 
 ### Task 1: Denoising a cosine
 
