@@ -2,78 +2,60 @@
 
 import sys
 
-import jax.numpy as jnp
-import numpy as np
 import pytest
+import torch as th
 
 sys.path.insert(0, "./src/")
 
-from src.mnist import cross_entropy, normalize
+from src.mnist import cross_entropy, normalize_batch
 
-testdata1 = [
+testdata = [
     (
-        np.arange(0, 10),
-        4.5,
-        2.8722813232690143,
-        np.array(
-            [
-                -1.5666989,
-                -1.2185436,
-                -0.8703883,
-                -0.522233,
-                -0.1740777,
-                0.1740777,
-                0.522233,
-                0.8703883,
-                1.2185436,
-                1.5666989,
-            ]
-        ),
+        th.tensor([[1.0, 0.0], [0.0, 1.0], [0.0, 0.0]]),
+        th.tensor([[0.2, 0.12], [0.42, 0.21], [0.22, 0.34]]),
+        th.tensor(1.5022, dtype=th.float32),
     ),
     (
-        np.linspace(5, 15, 6),
-        10.0,
-        3.415650255319866,
-        np.array(
-            [
-                -1.46385011,
-                -0.87831007,
-                -0.29277002,
-                0.29277002,
-                0.87831007,
-                1.46385011,
-            ]
-        ),
+        th.tensor([[1.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 1.0]]),
+        th.tensor([[0.8, 0.11], [0.22, 0.22], [0.1, 0.3], [0.08, 0.19]]),
+        th.tensor(0.7607, dtype=th.float32),
     ),
 ]
 
 
-@pytest.mark.parametrize("data, mean, std, res", testdata1)
-def test_normalize(data, mean, std, res) -> None:
-    """Test it the data is normalized correctly."""
-    result = normalize(data=data)
-    norm_data = np.round(result[0], 7)
-    assert np.allclose(norm_data, res)
-    assert np.allclose(result[1], mean)
-    assert np.allclose(result[2], std)
-
-
-testdata2 = [
-    (
-        jnp.array([[1.0, 0.0], [0.0, 1.0], [0.0, 0.0]]),
-        jnp.array([[0.2, 0.12], [0.42, 0.21], [0.22, 0.34]]),
-        jnp.array(1.5022, dtype=jnp.float32),
-    ),
-    (
-        jnp.array([[1.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 1.0]]),
-        jnp.array([[0.8, 0.11], [0.22, 0.22], [0.1, 0.3], [0.08, 0.19]]),
-        jnp.array(0.7607, dtype=jnp.float32),
-    ),
-]
-
-@pytest.mark.parametrize("label, out, res", testdata2)
+@pytest.mark.parametrize("label, out, res", testdata)
 def test_cross_entropy(label, out, res) -> None:
     """Test if the cross entropy is implemented correctly."""
     result = cross_entropy(label=label, out=out)
-    ce = jnp.round(result, 4)
-    assert jnp.allclose(ce, res)
+    ce = th.round(result, decimals=4)
+    assert th.allclose(ce, res)
+
+
+norm_testdata = [
+    (
+        th.linspace(0, 5, 10),
+        th.tensor(
+            [
+                -1.4863,
+                -1.1560,
+                -0.8257,
+                -0.4954,
+                -0.1651,
+                0.1651,
+                0.4954,
+                0.8257,
+                1.1560,
+                1.4863,
+            ]
+        ),
+    ),
+    (th.linspace(0, 1, 5), th.tensor([-1.2649, -0.6325, 0.0000, 0.6325, 1.2649])),
+]
+
+
+@pytest.mark.parametrize("inpt, res", norm_testdata)
+def test_normalize(inpt, res) -> None:
+    """Test the normalization."""
+    output = normalize_batch(inpt)
+    output = th.round(output, decimals=4)
+    assert th.allclose(output, res)
