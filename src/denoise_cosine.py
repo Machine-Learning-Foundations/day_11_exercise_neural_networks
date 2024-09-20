@@ -55,7 +55,7 @@ def net_cost(params: Dict, x: th.Tensor, y: th.Tensor) -> th.Tensor:
     Args:
         params (Dict): Dictionary containing W1, b, and W2.
         x (th.Tensor): Network input.
-        y (th.Tensor): Squared error loss.
+        y (th.Tensor): desired output.
 
     Returns:
         th.Tensor: Squared Error.
