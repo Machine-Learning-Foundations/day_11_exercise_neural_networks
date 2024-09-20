@@ -89,8 +89,8 @@ C_{\text{ce}}(\mathbf{y},\mathbf{o})=-\frac{1}{n_b}\sum_{i=1}^{n_b}\sum_{k=1}^{n
 
 - Initialize the network with the `Net` object (see the `torch` documentation for help).
 
-- Train your network for a fixed number of `EPCOHS` over the entire dataset.
+- Train your network for a fixed number of `EPCOHS` over the entire dataset. Major steps in trianing loop include normalize inputs, model prediction, loss calculation, `.backward()` over loss, `sgd_step` and `zero_grad`. Validate model once per epoch.
     
-- Last, load the test data with `test_loader` and calculate the test accuracy. Save it to a list.
+- When model is trained, load the test data with `test_loader` and calculate the test accuracy.
 
 - Optional: Plot the training and validation accuracies and add the test accuracy in the end.
